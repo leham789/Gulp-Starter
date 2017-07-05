@@ -20,12 +20,14 @@ var config = {
   jsin: 'src/js/**/*.js',
   imgin: 'src/img/**/*.{jpg,jpeg,png,gif}',
   htmlin: 'src/*.html',
+  phpin: 'src/*.php',
   fontin: 'src/fonts/**/*',
   scssin: 'src/scss/**/*.scss',
   cssout: 'dist/css/',
   jsout: 'dist/js/',
   imgout: 'dist/img/',
   htmlout: 'dist/',
+  phpout: 'dist/',
   fontout: 'dist/fonts/',
   scssout: 'src/css/',
   cssoutname: 'style.css',
@@ -44,6 +46,7 @@ gulp.task('serve', ['sass'], function() {
   });
 
   gulp.watch([config.htmlin, config.jsin], ['reload']);
+  gulp.watch([config.phpin, config.jsin], ['reload']);
   gulp.watch(config.scssin, ['sass']);
 });
 
@@ -85,6 +88,11 @@ gulp.task('fonts', function() {
   .pipe(gulp.dest(config.fontout))
 })
 
+gulp.task('php', function() {
+  return gulp.src(config.phpin)
+  .pipe(gulp.dest(config.phpout))
+})
+
 gulp.task('html', function() {
   return gulp.src(config.htmlin)
     .pipe(htmlReaplce({
@@ -104,7 +112,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('build', function() {
-  sequence('clean', ['html', 'fonts', 'js', 'css', 'img']);
+  sequence('clean', ['html', 'php', 'fonts', 'js', 'css', 'img']);
 });
 
 gulp.task('default', ['serve']);
